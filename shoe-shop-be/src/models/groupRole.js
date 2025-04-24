@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
          * The `models/index` file will call this method automatically.
          */
         static associate(models) {
-            // define association here
+
         }
     }
     GroupRole.init({
@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
     }, {
         sequelize,
         modelName: 'GroupRole',
-        tableName: 'Group_Role'
+        tableName: 'Group_Role',
     });
     return GroupRole;
 };

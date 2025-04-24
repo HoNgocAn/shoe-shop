@@ -2,28 +2,26 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
-        await queryInterface.createTable('Group_Role', {
+        await queryInterface.createTable('User', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.INTEGER
             },
+            username: {
+                type: Sequelize.STRING
+            },
+            password: {
+                type: Sequelize.STRING
+            },
             groupId: {
                 type: Sequelize.INTEGER,
-                allowNull: false,
                 references: {
                     model: 'Group',
                     key: 'id'
                 },
-            },
-            roleId: {
-                type: Sequelize.INTEGER,
-                allowNull: false,
-                references: {
-                    model: 'Role',
-                    key: 'id'
-                },
+                onDelete: "CASCADE"
             },
             createdAt: {
                 allowNull: false,
@@ -38,6 +36,6 @@ module.exports = {
         });
     },
     async down(queryInterface, Sequelize) {
-        await queryInterface.dropTable('Group_Role');
+        await queryInterface.dropTable('User');
     }
 };

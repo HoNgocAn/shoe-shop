@@ -13,10 +13,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       price: {
-        type: Sequelize.DOUBLE
-      },
-      description: {
-        type: Sequelize.STRING
+        type: Sequelize.DECIMAL(10, 2) // 99999999.99
       },
       quantity: {
         type: Sequelize.INTEGER
@@ -30,15 +27,17 @@ module.exports = {
           model: 'Category',
           key: 'id'
         },
+        onDelete: 'CASCADE',
       },
-      type: Sequelize.ENUM('available', 'out_of_stock', 'discontinued'),
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.fn("NOW"),
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.fn("NOW"),
       }
     });
   },
