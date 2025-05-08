@@ -35,17 +35,16 @@ const getListProducts = async (page, limit, nameSearch, minPrice, maxPrice) => {
             });
         } else {
             return ({
-                EM: "Get list product successful",
-                EC: 0,
-                DT: []
+                EM: "Error 404",
+                EC: 1,
+                DT: ""
             });
         }
-
     } catch (error) {
-        console.log("Lỗi khi getListProducts:", error.message, error.stack);
+
         return ({
-            EM: "Error when getting list of products",
-            EC: 1,
+            EM: "Error from server",
+            EC: -1,
             DT: []
         });
     }
@@ -55,15 +54,23 @@ const getAllProducts = async () => {
     try {
         const data = await db.Product.findAll();
 
-        return {
-            EM: data.length > 0 ? "Get list product successful" : "No products found",
-            EC: 0,
-            DT: data
-        };
+        if (data && data.length > 0) {
+            return {
+                EM: "Get list product successful",
+                EC: 0,
+                DT: data
+            };
+        } else {
+            return {
+                EM: "Not found data",
+                EC: 1,
+                DT: data
+            };
+        }
+
     } catch (error) {
-        console.log(error);
         return {
-            EM: "Something went wrong when fetching products",
+            EM: "Error from server",
             EC: -1,
             DT: []
         };
@@ -73,16 +80,22 @@ const getAllProducts = async () => {
 
 const createNewProduct = async (data) => {
     try {
-        await db.Product.create(data);
-        return {
-            EM: "Create new product successful",
-            EC: 0,
-        };
+        const product = await db.Product.create(data);
+        if (product) {
+            return {
+                EM: "Create new product successful",
+                EC: 0,
+            };
+        } else {
+            return {
+                EM: "Failed to create product",
+                EC: 1,
+            };
+        }
     } catch (error) {
-        console.error("Error creating new product:", error);
         return {
-            EM: "Failed to create new product",
-            EC: 1,
+            EM: "Error from server",
+            EC: -1,
         };
     }
 };
@@ -105,7 +118,6 @@ const getProductById = async (id) => {
             };
         }
     } catch (error) {
-        console.error("Error getting product by ID:", error);
         return {
             EM: "Error from server",
             EC: -1,

@@ -4,14 +4,6 @@ const handleGetListCategory = async (req, res) => {
     try {
         let data = await getListCategory();
 
-        if (data.EC !== 0) {
-            return res.status(500).json({
-                EM: data.EM,
-                EC: data.EC,
-                DT: data.DT
-            });
-        }
-
         return res.status(200).json({
             EM: data.EM,
             EC: data.EC,

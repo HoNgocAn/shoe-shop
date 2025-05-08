@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
             // Một giỏ hàng thuộc về một người dùng
             Cart.belongsTo(models.User, { foreignKey: 'userId' });
             // Một giỏ hàng có thể chứa nhiều sản phẩm thông qua bảng trung gian 'Cart_Product'
-            Cart.belongsToMany(models.CartItem, { through: 'Cart_Item', foreignKey: 'cartId' });
+            Cart.belongsToMany(models.Product, { through: 'Cart_Item', foreignKey: 'cartId' });
         }
     }
     Cart.init({

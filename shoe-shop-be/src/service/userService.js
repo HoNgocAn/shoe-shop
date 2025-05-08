@@ -55,7 +55,7 @@ const getListUsers = async (page, limit, nameSearch, groupId) => {
 
     } catch (error) {
         return {
-            EM: "Something went wrong when getting user list",
+            EM: "Server error",
             EC: -1,
             DT: []
         };
@@ -123,7 +123,11 @@ const deleteUser = async (id) => {
             DT: ""
         }
     } catch (error) {
-        console.error(`Error deleting user with id ${id}:`, error);
+        return {
+            EM: "Server error",
+            EC: -1,
+            DT: "",
+        };
     }
 }
 const getUserById = async (id) => {
@@ -148,7 +152,7 @@ const getUserById = async (id) => {
     } catch (error) {
         console.log(error);
         return {
-            EM: "Error occurred while fetching user",
+            EM: "Server error",
             EC: -1,
             DT: "",
         };
@@ -179,8 +183,8 @@ const updateUser = async (data) => {
     } catch (error) {
         console.log(error);
         return {
-            EM: "update user failed",
-            EC: 1,
+            EM: "Server error",
+            EC: -1,
         };
     }
 
@@ -208,8 +212,8 @@ const changePassword = async (password, id) => {
     } catch (error) {
         console.log(error);
         return {
-            EM: "Change password failed",
-            EC: 1,
+            EM: "Server error",
+            EC: -1,
         };
     }
 }

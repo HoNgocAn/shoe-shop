@@ -8,13 +8,30 @@ const handleGetListProduct = async (req, res) => {
         let nameSearch = req.query.nameSearch || '';
         let minPrice = req.query.minPrice || 0;
         let maxPrice = req.query.maxPrice || 10000;
-        let data = await getListProducts(+page, 12, nameSearch, minPrice, maxPrice);
+        let data = await getListProducts(+page, 10, nameSearch, minPrice, maxPrice);
 
-        return res.status(200).json({
-            EM: data.EM,
-            EC: data.EC,
-            DT: data.DT
-        })
+
+        if (!page || isNaN(page)) {
+            return res.status(400).json({
+                EM: "Invalid or missing 'page' parameter",
+                EC: 1,
+                DT: {}
+            });
+        }
+
+        if (data) {
+            return res.status(200).json({
+                EM: data.EM,
+                EC: data.EC,
+                DT: data.DT
+            })
+        } else {
+            return res.status(400).json({
+                EM: data.EM,
+                EC: data.EC,
+                DT: data.DT
+            })
+        }
 
     } catch (error) {
         return res.status(500).json({
@@ -74,7 +91,14 @@ const handleCreateProduct = async (req, res) => {
 const handleGetProductById = async (req, res) => {
     try {
         let id = req.params.id;
-        console.log(id);
+
+        if (isNaN(id)) {
+            return res.status(400).json({
+                EM: "Invalid user ID",
+                EC: 1,
+                DT: {}
+            });
+        }
 
         let data = await getProductById(id)
         return res.status(200).json({

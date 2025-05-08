@@ -7,7 +7,7 @@ const getListGroup = async () => {
             order: [["name", "ASC"]]
         })
 
-        if (data) {
+        if (data && data.length > 0) {
             return {
                 EM: "Get list group successful",
                 EC: 0,
@@ -15,13 +15,19 @@ const getListGroup = async () => {
             }
         } else {
             return {
-                EM: "Get list group successful",
-                EC: 0,
+                EM: "Not found data",
+                EC: 1,
                 DT: []
             }
         }
+
     } catch (error) {
         console.log(error);
+        return {
+            EM: "Error from server",
+            EC: -1,
+            DT: [],
+        };
     }
 }
 

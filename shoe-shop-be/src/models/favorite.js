@@ -20,7 +20,11 @@ module.exports = (sequelize, DataTypes) => {
     productId: {
       type: DataTypes.INTEGER,
       allowNull: false
-    }
+    },
+    isFavorite: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
+    },
   }, {
     sequelize,
     modelName: 'Favorite',

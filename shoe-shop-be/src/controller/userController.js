@@ -8,6 +8,16 @@ const handleGetListUser = async (req, res) => {
         let nameSearch = req.query.nameSearch || '';
         let groupId = req.query.groupId || '';
         let data = await getListUsers(+page, 3, nameSearch, groupId);
+
+
+        if (!page || isNaN(page)) {
+            return res.status(400).json({
+                EM: "Invalid or missing 'page' parameter",
+                EC: 1,
+                DT: {}
+            });
+        }
+
         return res.status(200).json({
             EM: data.EM,
             EC: data.EC,
@@ -17,7 +27,7 @@ const handleGetListUser = async (req, res) => {
     } catch (error) {
         return res.status(500).json({
             EM: "error from server",
-            EC: "-1",
+            EC: -1,
             DT: ""
         })
     }
@@ -34,7 +44,7 @@ const handleCreateUser = async (req, res) => {
     } catch (error) {
         return res.status(500).json({
             EM: "error from server",
-            EC: "-1",
+            EC: -1,
             DT: ""
         })
     }
@@ -51,7 +61,7 @@ const handleUpdateUser = async (req, res) => {
     } catch (error) {
         return res.status(500).json({
             EM: "error from server",
-            EC: "-1",
+            EC: -1,
             DT: ""
         })
     }
@@ -60,6 +70,16 @@ const handleUpdateUser = async (req, res) => {
 const handleDeleteUser = async (req, res) => {
     try {
         let id = req.params.id;
+
+
+        if (isNaN(id)) {
+            return res.status(400).json({
+                EM: "Invalid user ID",
+                EC: 1,
+                DT: {}
+            });
+        }
+
         let data = await deleteUser(id)
         return res.status(200).json({
             EM: data.EM,
@@ -69,7 +89,7 @@ const handleDeleteUser = async (req, res) => {
     } catch (error) {
         return res.status(500).json({
             EM: "error from server",
-            EC: "-1",
+            EC: -1,
             DT: ""
         })
     }
@@ -91,6 +111,15 @@ const getUserAccount = async (req, res) => {
 const handleGetUserById = async (req, res) => {
     try {
         let id = req.params.id;
+
+        if (isNaN(id)) {
+            return res.status(400).json({
+                EM: "Invalid user ID",
+                EC: 1,
+                DT: {}
+            });
+        }
+
         let data = await getUserById(id)
         return res.status(200).json({
             EM: data.EM,
@@ -100,7 +129,7 @@ const handleGetUserById = async (req, res) => {
     } catch (error) {
         return res.status(500).json({
             EM: "error from server",
-            EC: "-1",
+            EC: -1,
             DT: ""
         })
     }
@@ -121,7 +150,7 @@ const handleChangePassword = async (req, res) => {
     } catch (error) {
         return res.status(500).json({
             EM: "error from server",
-            EC: "-1",
+            EC: -1,
             DT: ""
         })
     }

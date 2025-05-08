@@ -1,4 +1,5 @@
-import { getListRole, createNewRole, deleteRole, fetchRoleByGroup, assignRoleToGroup } from "../service/roleService..";
+import { getListRole, createNewRole, deleteRole, fetchRoleByGroup, assignRoleToGroup } from "../service/roleService";
+
 
 
 const handleGetListRole = async (req, res) => {
@@ -44,7 +45,15 @@ const handleCreateRole = async (req, res) => {
 const handleDeleteRole = async (req, res) => {
     try {
         let id = req.params.id;
-        console.log("check id", id);
+
+        if (isNaN(id)) {
+            return res.status(400).json({
+                EM: "Invalid user ID",
+                EC: 1,
+                DT: {}
+            });
+        }
+
         let data = await deleteRole(id)
         return res.status(200).json({
             EM: data.EM,
@@ -63,6 +72,16 @@ const handleDeleteRole = async (req, res) => {
 const handleFetchRolesByGroup = async (req, res) => {
     try {
         let id = req.params.groupId;
+
+
+        if (isNaN(id)) {
+            return res.status(400).json({
+                EM: "Invalid user ID",
+                EC: 1,
+                DT: {}
+            });
+        }
+
         let data = await fetchRoleByGroup(id)
         return res.status(200).json({
             EM: data.EM,

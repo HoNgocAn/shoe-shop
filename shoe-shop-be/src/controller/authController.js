@@ -110,7 +110,6 @@ const handleLogout = async (req, res) => {
         });
     }
 };
-
 const createNewToken = async (req, res) => {
     const { refreshToken } = req.body;
 
@@ -133,8 +132,12 @@ const createNewToken = async (req, res) => {
             });
         }
 
-        const userId = decoded.id;
-        const payload = { id: userId, username: decoded.username };
+        // Không cần truy vấn DB nữa
+        const payload = {
+            id: decoded.id,
+            username: decoded.username,
+            group: decoded.group,
+        };
 
         const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
             expiresIn: process.env.JWT_ACCESS_EXPRIES_IN,

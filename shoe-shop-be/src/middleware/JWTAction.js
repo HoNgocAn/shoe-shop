@@ -38,20 +38,14 @@ const createRefreshToken = async (payload) => {
 };
 
 const verifyAccessToken = (token) => {
-    const key = process.env.ACCESS_TOKEN_SECRET;
+    let key = process.env.ACCESS_TOKEN_SECRET;
     let data = null;
 
     try {
         let decoded = jwt.verify(token, key);
         data = decoded;
     } catch (error) {
-        if (error.name === 'TokenExpiredError') {
-            throw new Error('Token expired');
-        } else if (error.name === 'JsonWebTokenError') {
-            throw new Error('Invalid token');
-        } else {
-            throw error; // Bắt các lỗi không xác định
-        }
+        throw error;
     }
 
     return data;
@@ -173,7 +167,9 @@ const checkUserPermission = (req, res, next) => {
             });
         }
 
-        let canAccess = roles.some(item => item.url === staticUrl)
+        let canAccess = roles.some(item =>
+            item.url === staticUrl && item.method === req.method
+        );
         if (canAccess) {
             next()
         } else {

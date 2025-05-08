@@ -18,6 +18,13 @@ connection();
 
 initAPIbRoutes(app);
 
+app.use((req, res, next) => {
+    res.status(404).json({
+        message: "API not found",
+    });
+});
+
+
 const port = process.env.PORT || 8080;
 
 app.listen(port, () => {

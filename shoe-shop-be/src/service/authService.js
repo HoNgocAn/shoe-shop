@@ -39,7 +39,7 @@ const registerNewUser = async (rawUserData) => {
         await db.User.create({
             username: rawUserData.username,
             password: hashPassword,
-            groupId: rawUserData.groupId
+            groupId: 3
         });
 
         return {
@@ -66,7 +66,7 @@ const getGroupWithRoles = async (user) => {
         },
 
     })
-    return roles ? roles : "nothing"
+    return roles ? roles : null
 }
 
 
@@ -92,15 +92,14 @@ const loginUser = async (rawData) => {
 
             let group = await getGroupWithRoles(user);
 
-            // let group = await getGroupWithRoles(user);
             let payload = {
                 id: user.id,
                 username: user.username,
                 group: group,
             }
 
-            let accessToken = createJWT(payload)
-            let refreshToken = await createRefreshToken(payload)
+            let accessToken = createJWT(payload);
+            let refreshToken = await createRefreshToken(payload);
             return {
                 EM: "Login successfully",
                 EC: 0,
@@ -128,6 +127,6 @@ const loginUser = async (rawData) => {
 };
 
 export {
-    registerNewUser, loginUser
+    registerNewUser, loginUser, getGroupWithRoles
 };
 
